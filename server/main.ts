@@ -23,11 +23,13 @@ io.on("join", (x) => {
   console.log(x);
 });
 
-
-
 io.on("connection", async (client) => {
-
-  client.on('send:message', x => io.emit('send:message', x))
+  client.on("send:message", (message) => {
+    client.broadcast.emit("send:message", {
+      message,
+      username: client.data.username,
+    });
+  });
 
   client.on("disconnect", async (reason) => {
     let existingSockets = await io.fetchSockets();
@@ -49,13 +51,10 @@ io.on("connection", async (client) => {
     }));
 
     io.emit("user:list", socketIds);
-  })
+  });
 
   client.on("set:username", async (username) => {
     client.data.username = username;
-
-    
   });
-
 });
 server.listen(4001);

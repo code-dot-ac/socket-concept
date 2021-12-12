@@ -1,13 +1,11 @@
 import styles from "./message.module.css";
 
-interface IProps {
-  message: string;
-}
-const Message = ({ message }: IProps) => {
+import {IMessage} from '../../App'
+const Message = ({ message }: {message: IMessage}) => {
   return (
     <div className={styles.message}>
-      {/* <p>{user}</p> */}
-      <p>{message}</p>
+      <p>{message.username}</p>
+      <p>{message.message}</p>
     </div>
   );
 };
