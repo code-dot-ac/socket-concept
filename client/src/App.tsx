@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
 import styles from "./App.module.css";
 import Message from "./components/message";
@@ -7,25 +7,45 @@ import MessageBox from "./components/messageBox";
 import Sidebar from "./components/sidebar";
 
 const App = () => {
-  const [messages, setMessages] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [socket, setSocket] = useState<Socket>();
+  const [username, setUsername] = useState("");
+  const [messages, setMessages] = useState<Array<string>>([]);
+  const [users, setUsers] = useState([]);
+  const [isOpen, setIsOpen] = useState(true);
+  useEffect(()=>{
+    const socket = io("http://localhost:4001");
+    setSocket(socket)
+  },[])
+  
   useEffect(() => {
-    const socket = io("http://localhost:4000");
-    socket.on("connect", () => {
-      console.log("connected");
-    });
-
-  }, []);
-
+    if(username.length && socket){  
+      socket.emit('set:username', username);      
+      socket.emit('get:usernames');      
+      socket.on("user:list", (connectedUsers) => {
+          const users = connectedUsers.map(user => user.username ?? 'Anonymous');
+          setUsers(users)
+      });
+      socket.on('send:message', (payload)=>{ 
+        console.log('payload: ',payload)
+        // setMessages([...messages, payload])
+      })
+     
+    }
+    
+  }, [username]);
+  const handleAddMessage = (message:string) => {
+    setMessages([...messages, message]);
+    socket?.emit('send:message', message);
+  }
   return (
     <div className={styles.app}>
-      <Modal />
-      <Sidebar users={['proevilz', 'gamesmad']}/>
+      {(!username?.length) && <Modal setUsername={setUsername} />}
+      <Sidebar users={users}/>
       <div className={styles.container}>
         <div className={styles.messages}>
           {messages.map((message, index) => (<Message key={index} message={message} />))}            
         </div>
-        <MessageBox />
+        <MessageBox onNewMessage={handleAddMessage}/>
       </div>
     </div>
   );
