@@ -17,7 +17,7 @@ stages:
     displayName: Code Integration
     jobs:
       - job: build
-        displayName: Build Application
+        displayName: Build Node Application
         steps:
         - task: NodeTool@0
           inputs:
@@ -38,9 +38,9 @@ stages:
             ArtifactName: 'Node Application'
             publishLocation: 'Container'
       # Build the code into a deployable artifact
-      # - job: buildreact
-      #   displayName: Build React Application
-      #   steps:
+      - job: buildreact
+        displayName: Build React Application
+        steps:
         - task: NodeTool@0
           inputs:
             versionSpec: '16.x'
@@ -92,7 +92,7 @@ stages:
                     azureSubscription: 'Chat App(1467cfa6-54c9-4dde-9b37-975d37a9cc4e)'
                     appType: 'webAppLinux'
                     WebAppName: 'ca-uks-as-socketserver-production'
-                    packageForLinux: '$(Pipeline.Workspace)/React Application'
+                    packageForLinux: '$(Pipeline.Workspace)/Node Application'
                     RuntimeStack: 'NODE|14-lts'
                     StartupCommand: 'npm start'
                   
