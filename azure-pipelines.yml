@@ -29,12 +29,13 @@ stages:
 
         - script: |
             npm install
+            npm run build
           displayName: 'npm install and build'
           workingDirectory: 'server'
 
         - task: PublishBuildArtifacts@1
           inputs:
-            PathtoPublish: 'server'
+            PathtoPublish: 'server/dist'
             ArtifactName: 'Node Application'
             publishLocation: 'Container'
       # Build the code into a deployable artifact
@@ -106,5 +107,5 @@ stages:
                     WebAppName: 'ca-uks-as-socketserver-production'
                     packageForLinux: '$(Pipeline.Workspace)/Node Application'
                     RuntimeStack: 'NODE|14-lts'
-                    StartupCommand: 'npm start'
+                    StartupCommand: 'node index'
                   
