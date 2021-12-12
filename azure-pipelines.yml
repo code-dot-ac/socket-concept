@@ -48,7 +48,7 @@ stages:
       # Deploy artifact to the test environment
       - deployment: citrusclean
         displayName: Deploy to citrusclean
-        # environment: production
+        environment: production
         strategy:
           runOnce:
             deploy:
