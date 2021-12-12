@@ -11,7 +11,7 @@ const Modal = () => {
 
   }
   const handleChange = () => {
-
+    setUsername(e.target.value)
   }
   return (
     <div className={styles.backdrop}>
