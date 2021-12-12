@@ -17,7 +17,7 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(true);
   useEffect(() => {
-    const socket = io("http://localhost:4001");
+    const socket = io("http://ca-uks-as-socketserver-production.azurewebsites.net");
     setSocket(socket);
   }, []);
 
