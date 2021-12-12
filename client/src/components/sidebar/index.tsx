@@ -7,8 +7,10 @@ const Sidebar = ({users}:IProps) => {
         <div className={styles.sidebar}>
             <h3>Users</h3>
             <ul>
-                <li>ProEvilz</li>
-                <li>Gamesmad</li>
+                {users.map((user, index) =>{
+                    return <li key={index}>{user}</li>
+                })}
+              
             </ul>
         </div>
     );

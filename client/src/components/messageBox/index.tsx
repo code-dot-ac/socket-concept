@@ -2,10 +2,10 @@ import { useState } from "react";
 import styles from "./messagebox.module.css";
 
 interface IProps {
-  message: string;
-  user: string;
+  onNewMessage: (messsage: string) =>void;
+  
 }
-const MessageBox = () => {
+const MessageBox = ({onNewMessage}:IProps) => {
   const [message, setMessage] = useState('')
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value)
@@ -14,6 +14,7 @@ const MessageBox = () => {
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter') {
       console.log(message)
+      onNewMessage(message)
       setMessage('')
     }
   }
