@@ -16,9 +16,31 @@ stages:
   - stage: build
     displayName: Code Integration
     jobs:
+      - job: build
+        displayName: Build Node Application
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '16.x'
+          displayName: 'Install Node.js'
+
+
+        # echo -e "VITE_SOME_KEY=123" >> .env
+
+        - script: |
+            npm install
+            npm run build
+          displayName: 'npm install and build'
+          workingDirectory: ''
+
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: 'server/dist'
+            ArtifactName: 'Node Application'
+            publishLocation: 'Container'
       # Build the code into a deployable artifact
       - job: build
-        displayName: Build Application
+        displayName: Build React Application
         steps:
         - task: NodeTool@0
           inputs:
