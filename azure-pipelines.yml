@@ -23,3 +23,9 @@ steps:
     npm run build
   displayName: 'npm install and build'
   workingDirectory: 'client'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'React Application'
+    publishLocation: 'Container'
