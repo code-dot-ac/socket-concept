@@ -16,7 +16,7 @@ stages:
   - stage: build
     displayName: Code Integration
     jobs:
-      - job: build
+      - job: buildnode
         displayName: Build Node Application
         steps:
         - task: NodeTool@0
@@ -29,17 +29,16 @@ stages:
 
         - script: |
             npm install
-            npm run build
           displayName: 'npm install and build'
-          workingDirectory: ''
+          workingDirectory: 'server'
 
         - task: PublishBuildArtifacts@1
           inputs:
-            PathtoPublish: 'server/dist'
+            PathtoPublish: 'server'
             ArtifactName: 'Node Application'
             publishLocation: 'Container'
       # Build the code into a deployable artifact
-      - job: build
+      - job: buildreact
         displayName: Build React Application
         steps:
         - task: NodeTool@0
@@ -87,6 +86,13 @@ stages:
                     WebAppName: 'ca-uks-as-ui-production'
                     packageForLinux: '$(Pipeline.Workspace)/React Application'
                     RuntimeStack: 'PHP|8.0'
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: 'AzureRM'
+                    azureSubscription: 'Chat App(1467cfa6-54c9-4dde-9b37-975d37a9cc4e)'
+                    appType: 'webAppLinux'
+                    WebAppName: 'ca-uks-as-socketserver-production'
+                    packageForLinux: '$(Pipeline.Workspace)/React Application'
+                    RuntimeStack: 'NODE|14-lts'
+                    StartupCommand: 'npm start'
                   
-
-    
