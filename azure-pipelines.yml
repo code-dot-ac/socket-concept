@@ -16,8 +16,8 @@ stages:
   - stage: build
     displayName: Code Integration
     jobs:
-      - job: buildnode
-        displayName: Build Node Application
+      - job: build
+        displayName: Build Application
         steps:
         - task: NodeTool@0
           inputs:
@@ -38,9 +38,9 @@ stages:
             ArtifactName: 'Node Application'
             publishLocation: 'Container'
       # Build the code into a deployable artifact
-      - job: buildreact
-        displayName: Build React Application
-        steps:
+      # - job: buildreact
+      #   displayName: Build React Application
+      #   steps:
         - task: NodeTool@0
           inputs:
             versionSpec: '16.x'
