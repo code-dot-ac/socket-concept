@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "./modal.module.css";
 
 interface IProps {
@@ -5,14 +6,18 @@ interface IProps {
   user: string;
 }
 const Modal = () => {
+  const [username, setUsername] = useState("");
   const handleClick = () => {
+
+  }
+  const handleChange = () => {
 
   }
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <h1>Who are you?</h1>
-        <input type="text" placeholder="Username" onChange={handleChange}/>
+        <input type="text" placeholder="Username" value={username} onChange={handleChange}/>
         <button onClick={handleClick}>Enter</button>
       </div>
     </div>
