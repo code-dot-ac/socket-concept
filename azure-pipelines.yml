@@ -9,23 +9,62 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '16.x'
-  displayName: 'Install Node.js'
 
 
-# echo -e "VITE_SOME_KEY=123" >> .env
+stages:
+  # Integrate and validate the code
+  - stage: build
+    displayName: Code Integration
+    jobs:
+      # Build the code into a deployable artifact
+      - job: build
+        displayName: Build Application
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '16.x'
+          displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-  workingDirectory: 'client'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'client/dist'
-    ArtifactName: 'React Application'
-    publishLocation: 'Container'
+        # echo -e "VITE_SOME_KEY=123" >> .env
+
+        - script: |
+            npm install
+            npm run build
+          displayName: 'npm install and build'
+          workingDirectory: 'client'
+
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: 'client/dist'
+            ArtifactName: 'React Application'
+            publishLocation: 'Container'
+  # Facilitate automated and manual quality assurance
+  - stage: production
+    displayName: Production
+    variables:
+      - group: "Citrus Configuration (Production Environment)"
+    jobs:
+      # Deploy artifact to the test environment
+      - deployment: citrusclean
+        displayName: Deploy to citrusclean
+        environment: production
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    targetPath: "$(Pipeline.Workspace)"
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: 'AzureRM'
+                    azureSubscription: 'Chat App(1467cfa6-54c9-4dde-9b37-975d37a9cc4e)'
+                    appType: 'webAppLinux'
+                    WebAppName: 'ca-uks-as-ui-production'
+                    packageForLinux: '$(Pipeline.Workspace)/React Application'
+                    RuntimeStack: 'PHP|8.0'
+                  
+
+    
