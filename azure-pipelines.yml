@@ -42,8 +42,8 @@ stages:
   # Facilitate automated and manual quality assurance
   - stage: production
     displayName: Production
-    variables:
-      - group: "Citrus Configuration (Production Environment)"
+    # variables:
+    #   - group: "Citrus Configuration (Production Environment)"
     jobs:
       # Deploy artifact to the test environment
       - deployment: citrusclean
