@@ -27,7 +27,8 @@ const App = () => {
       socket.emit("get:usernames");
       socket.on("user:list", (connectedUsers) => {
         const users = connectedUsers.map(
-          (user) => user.username ?? "Anonymous"
+          (userObj: { username: string; socketId: string }) =>
+            userObj.username ?? "Anonymous"
         );
         setUsers(users);
       });
