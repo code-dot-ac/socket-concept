@@ -1,0 +1,23 @@
+.app {
+  width:100%;
+  display:flex;
+  background:#dbdbdb;
+}
+.sidebar {
+  width:300px;
+  height:100vh;
+  background: #4949cb;
+  padding: 20px;
+  color:white;
+}
+.messages {
+  padding:30px;
+}
+.message {
+  background:white;
+  border-radius:5px;
+  paddio
+}
+.messages p {
+  margin:0
+}
