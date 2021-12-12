@@ -11,6 +11,11 @@ const server = http.createServer(function (req, res) {
     res.end();
     return;
   }
+  if (req.url === '/' && req.method === "GET") {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
 });
 
 const io = new socketio.Server(server, {
