@@ -28,6 +28,7 @@ stages:
         # echo -e "VITE_SOME_KEY=123" >> .env
 
         - script: |
+            npm install -g @vercel/ncc
             npm install
             npm run build
           displayName: 'npm install and build'
