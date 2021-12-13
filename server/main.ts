@@ -12,7 +12,8 @@ const server = http.createServer(function (req, res) {
     return;
   }
   if (req.url === '/' && req.method === "GET") {
-    res.writeHead(200);
+    res.write('OK')
+    // res.writeHead(200);
     res.end();
     return;
   }
@@ -62,4 +63,5 @@ io.on("connection", async (client) => {
     client.data.username = username;
   });
 });
-server.listen(process.env.PORT);
+server.listen(process.env.PORT || 8080);
+console.log(`PORT: ${process.env.PORT || 8080}`)
