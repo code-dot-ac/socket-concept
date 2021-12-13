@@ -7,17 +7,22 @@ import * as socketio from "socket.io";
     res.setHeader("Access-Control-Request-Method", "*");
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
     res.setHeader("Access-Control-Allow-Headers", "*");
-    if (req.method === "OPTIONS") {
-      res.writeHead(200);
-      res.end();
-      return;
-    }
-    if (req.url === '/' && req.method === "GET") {
-      res.write('OK')
-      // res.writeHead(200);
-      res.end();
-      return;
-    }
+
+    res.writeHead(200);
+    res.end('OK');
+    // return;
+
+    // if (req.method === "OPTIONS") {
+    //   res.writeHead(200);
+    //   res.end('OK');
+    //   return;
+    // }
+    // if (req.url === '/' && req.method === "GET") {
+    //   res.write('OK')
+    //   // res.writeHead(200);
+    //   res.end();
+    //   return;
+    // }
   });
   
   const io = new socketio.Server(server, {
