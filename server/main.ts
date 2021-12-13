@@ -8,8 +8,11 @@ import * as socketio from "socket.io";
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
     res.setHeader("Access-Control-Allow-Headers", "*");
 
-    res.writeHead(200);
-    res.end('OK');
+    if (!req.url?.includes('socket.io')) {
+      res.writeHead(200);
+      res.end('OK');
+    }
+    
     // return;
 
     // if (req.method === "OPTIONS") {
