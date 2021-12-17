@@ -17,7 +17,8 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(true);
   useEffect(() => {
-    const socket = io("https://ca-uks-as-socketserver-production.azurewebsites.net");
+    const socket = io("https://willhartman-code-dot-ac-socket-concept-7v55w5qgcrx9v-8181.githubpreview.dev");
+    // const socket = io("https://ca-uks-as-socketserver-production.azurewebsites.net");
     setSocket(socket);
   }, []);
 
